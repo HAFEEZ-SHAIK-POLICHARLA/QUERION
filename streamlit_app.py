@@ -10,6 +10,8 @@ import requests
 
 load_dotenv()
 
+BACKEND_URL = "https://querion-backend-1.onrender.com"
+
 st.set_page_config(
     page_title="Querion",
     page_icon="📄",
@@ -410,14 +412,27 @@ with st.sidebar:
     )
 
     if uploaded is not None and st.button("Ingest PDF", use_container_width=True):
-        with st.spinner("Uploading and triggering ingestion..."):
-            path = save_uploaded_pdf(uploaded)
+        with st.spinner("Uploading PDF..."):
 
-            run_async(send_rag_ingest_event(path))
+            response = requests.post(
+                f"{BACKEND_URL}/upload",
+                files={
+                    "file": (
+                        uploaded.name,
+                        uploaded.getvalue(),
+                        "application/pdf"
+                    )
+                },
+                timeout=120
+            )
 
-            time.sleep(0.3)
+            response.raise_for_status()
 
-        st.success(f"Triggered ingestion for: {path.name}")
+            result = response.json()
+
+        st.success(
+            f"Ingested {result['source']} ({result['chunks']} chunks)"
+        )
 
     st.divider()
 
@@ -430,6 +445,7 @@ with st.sidebar:
     )
 
     st.divider()
+
     if st.button("🗑️ Clear chat", use_container_width=True):
         st.session_state.messages = []
         st.rerun()
@@ -477,21 +493,24 @@ if question and question.strip():
 
     try:
         with st.chat_message("assistant"):
-            with st.spinner("Sending event and generating answer..."):
-                event_id = run_async(
-                    send_rag_query_event(
-                        question,
-                        int(top_k),
-                    )
+            with st.spinner("Searching documents and generating answer..."):
+                response = requests.post(
+                    f"{BACKEND_URL}/query",
+                    json={
+                        "question":question,
+                        "top_k":int(top_k)
+                    },
+                    timeout=120
                 )
 
-                output = wait_for_run_output(event_id)
+            response.raise_for_status()
 
-                if not isinstance(output, dict):
-                    output = {}
+            output= response.json()
 
-                answer = output.get("answer", "")
-                sources = output.get("sources", [])
+            contexts = output.get("contexts", [])
+            sources = output.get("sources", [])
+
+            answer = "\n\n".join(contexts)
 
             st.write(answer or "(No answer)")
             if sources:
