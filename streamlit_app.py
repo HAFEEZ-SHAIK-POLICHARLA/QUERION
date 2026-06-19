@@ -291,6 +291,13 @@ def get_inngest_client() -> inngest.Inngest:
         event_key=os.getenv("INNGEST_EVENT_KEY")
     )
 
+def run_async(coro):
+    loop = asyncio.new_event_loop()
+    try:
+        return loop.run_until_complete(coro)
+    finally:
+        loop.close()
+
 
 def save_uploaded_pdf(file) -> Path:
     uploads_dir = Path("uploads")
@@ -406,7 +413,7 @@ with st.sidebar:
         with st.spinner("Uploading and triggering ingestion..."):
             path = save_uploaded_pdf(uploaded)
 
-            asyncio.run(send_rag_ingest_event(path))
+            run_async(send_rag_ingest_event(path))
 
             time.sleep(0.3)
 
@@ -471,7 +478,7 @@ if question and question.strip():
     try:
         with st.chat_message("assistant"):
             with st.spinner("Sending event and generating answer..."):
-                event_id = asyncio.run(
+                event_id = run_async(
                     send_rag_query_event(
                         question,
                         int(top_k),
