@@ -504,4 +504,6 @@ if question and question.strip():
         )
 
     except Exception as e:
+        import traceback
+        st.code(traceback.format_exc())
         st.error(str(e))
