@@ -288,7 +288,7 @@ button[data-testid="stChatInputSubmitButton"] svg {
 def get_inngest_client() -> inngest.Inngest:
     return inngest.Inngest(
         app_id="rag_app",
-        is_production=False
+        event_key=os.getenv("INNGEST_EVENT_KEY")
     )
 
 
@@ -334,10 +334,9 @@ async def send_rag_query_event(question: str, top_k: int):
 
 
 def _inngest_api_base() -> str:
-    # Local dev server default; configurable via env
     return os.getenv(
         "INNGEST_API_BASE",
-        "http://127.0.0.1:8288/v1"
+        "https://api.inngest.com"
     )
 
 
