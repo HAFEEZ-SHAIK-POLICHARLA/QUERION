@@ -46,13 +46,24 @@ st.markdown(
     footer { visibility: hidden; }
     .stDeployButton { display: none; }
 
-    html, body, .stApp {
+    html,
+    body,
+    .stApp,
+    [data-testid="stAppViewContainer"],
+    [data-testid="stMain"] {
         background:
-            radial-gradient(circle at 12% 12%, rgba(34, 211, 238, 0.12), transparent 28%),
-            radial-gradient(circle at 88% 18%, rgba(16, 185, 129, 0.10), transparent 26%),
-            radial-gradient(circle at 52% 88%, rgba(103, 232, 249, 0.10), transparent 30%),
-            linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 52%, var(--bg-2) 100%);
-        color: var(--text-main);
+            radial-gradient(circle at 12% 12%, rgba(34,211,238,0.12), transparent 28%),
+            radial-gradient(circle at 88% 18%, rgba(16,185,129,0.10), transparent 26%),
+            radial-gradient(circle at 52% 88%, rgba(103,232,249,0.10), transparent 30%),
+            linear-gradient(180deg, #f8fffe 0%, #f1fffd 52%, #e7fffb 100%) !important;
+    }
+
+    [data-testid="stAppViewContainer"] > .main {
+        background: transparent !important;
+    }
+
+    .main .block-container {
+        background: transparent !important;
     }
 
     .stApp {
@@ -264,12 +275,7 @@ st.markdown(
     }
 
     /* Chat input */
-    [data-testid="stBottom"] {
-        background: rgba(255,255,255,0.94) !important;
-        border-top: 1px solid rgba(34, 211, 238, 0.16) !important;
-        box-shadow: 0 -8px 24px rgba(16, 185, 129, 0.05) !important;
-    }
-
+   
     [data-testid="stBottomBlockContainer"] {
         background: transparent !important;
     }
