@@ -328,7 +328,7 @@ with st.sidebar:
     st.divider()
 
     top_k = st.number_input(
-        "Chunks to retrieve (top_k)",
+        "Enter Document Search Depth level:",
         min_value=1,
         max_value=20,
         value=5,
