@@ -26,9 +26,9 @@ st.markdown(
     """
     <style>
     :root {
-        --bg-0: #f8fffe;
-        --bg-1: #f1fffd;
-        --bg-2: #e7fffb;
+        --bg-0: #071018;
+        --bg-1: #08151f;
+        --bg-2: #0b1d28;
         --surface: #ffffff;
         --surface-2: #f6fffe;
         --stroke: rgba(17, 24, 39, 0.10);
