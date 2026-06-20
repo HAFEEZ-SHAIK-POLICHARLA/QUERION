@@ -59,32 +59,9 @@ st.markdown(
         position: relative;
     }
 
-    .stApp::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        background-image:
-            linear-gradient(rgba(16, 185, 129, 0.06) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(34, 211, 238, 0.05) 1px, transparent 1px);
-        background-size: 56px 56px;
-        opacity: 0.55;
-        z-index: 0;
-        animation: querion-grid 26s linear infinite;
-    }
+    
 
-    .stApp::after {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        background:
-            radial-gradient(circle at 20% 20%, rgba(34, 211, 238, 0.06), transparent 16%),
-            radial-gradient(circle at 80% 25%, rgba(16, 185, 129, 0.06), transparent 18%),
-            radial-gradient(circle at 45% 80%, rgba(103, 232, 249, 0.05), transparent 18%);
-        z-index: 0;
-        animation: querion-glow 10s ease-in-out infinite;
-    }
+
 
     @keyframes querion-grid {
         from { transform: translate3d(0, 0, 0); }
